@@ -4,6 +4,9 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 const pageRoutes = require("./routes/pageRoutes");
+const cmpntRoutes = require("./routes/cmpntRoutes");
+const jobRoutes = require("./routes/jobRoutes");
+const actionRoutes = require("./routes/actionRoutes");
 
 const path = require("path");
 
@@ -30,5 +33,8 @@ app.use(
 );
 
 app.use("/api", pageRoutes);
+app.use("/api", cmpntRoutes);
+app.use("/api", jobRoutes);
+app.use("/api", actionRoutes);
 
 module.exports = app;
