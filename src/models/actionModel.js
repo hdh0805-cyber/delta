@@ -20,14 +20,13 @@ exports.createAction = async ({
                     rj_seq,
                     p_id,
                     pc_seq,
-                    rai_action_type,
                     rai_action_order,
                     rai_target_value,
                     rai_status
                 )
                 VALUES
                 (
-                    ?, ?, ?, ?, ?, ?, '00'
+                    ?, ?, ?, ?, ?, '00'
                 )
             `;
 
@@ -35,7 +34,6 @@ exports.createAction = async ({
                 job_seq,
                 item.page_id,
                 item.cmpnt_seq,
-                item.action_type,
                 item.action_order,
                 item.action_target_value || null
             ]);
@@ -110,9 +108,11 @@ exports.getAction = async ({
         SELECT
             ai.rai_seq AS action_seq,
             ai.p_id AS page_id,
-            ai.rai_action_type AS action_type,
             ai.rai_action_order AS action_order,
             ai.rai_target_value AS action_target_value,
+            ai.rai_status AS action_status,
+            ai.rai_proc_dttm AS action_proc_dttm,
+            ai.rai_snapshot_img AS action_snapshot_img,
 
             pc.pc_seq AS cmpnt_seq,
             pc.pc_type AS cmpnt_type,
@@ -120,7 +120,20 @@ exports.getAction = async ({
             pc.pc_y AS cmpnt_y,
             pc.pc_width AS cmpnt_width,
             pc.pc_height AS cmpnt_height,
-            pc.pc_json_key AS cmpnt_json_key
+            pc.pc_json_key AS cmpnt_json_key,
+
+            pc.pc_action_type AS cmpnt_action_type,
+            pc.pc_scroll_cnt AS cmpnt_scroll_cnt,
+            pc.pc_scroll_interval AS cmpnt_scroll_interval,
+            pc.pc_scroll_amount AS cmpnt_scroll_amount,
+            pc.pc_must_done AS cmpnt_must_done,
+            pc.pc_mod_shift AS cmpnt_mod_shift,
+            pc.pc_mod_ctrl AS cmpnt_mod_ctrl,
+            pc.pc_mod_alt AS cmpnt_mod_alt,
+            pc.pc_focus_click AS cmpnt_focus_click,
+            pc.pc_keys_seq AS cmpnt_keys_seq,
+            pc.pc_next_delay AS cmpnt_next_delay,
+            pc.pc_text_data AS cmpnt_text_data
 
         FROM rpa_action_item ai
         INNER JOIN page_cmpnt pc

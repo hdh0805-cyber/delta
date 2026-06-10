@@ -8,7 +8,20 @@ exports.createCmpnt = async ({
     cmpnt_y,
     cmpnt_width,
     cmpnt_height,
-    cmpnt_json_key
+    cmpnt_json_key,
+
+    cmpnt_action_type,
+    cmpnt_scroll_cnt,
+    cmpnt_scroll_interval,
+    cmpnt_scroll_amount,
+    cmpnt_must_done,
+    cmpnt_mod_shift,
+    cmpnt_mod_ctrl,
+    cmpnt_mod_alt,
+    cmpnt_focus_click,
+    cmpnt_keys_seq,
+    cmpnt_next_delay,
+    cmpnt_text_data
 }) => {
 
     const sql = `
@@ -16,27 +29,52 @@ exports.createCmpnt = async ({
         (
             p_id,
             pc_type,
+            pc_json_key,
+            pc_action_type,
             pc_x,
             pc_y,
             pc_width,
             pc_height,
-            pc_json_key,
+            pc_scroll_cnt,
+            pc_scroll_interval,
+            pc_scroll_amount,
+            pc_must_done,
+            pc_mod_shift,
+            pc_mod_ctrl,
+            pc_mod_alt,
+            pc_focus_click,
+            pc_keys_seq,
+            pc_next_delay,
+            pc_text_data,
             pc_reg_dttm
         )
         VALUES
         (
-            ?, ?, ?, ?, ?, ?, ?, NOW()
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
         )
     `;
 
     const [result] = await db.query(sql, [
         page_id,
         cmpnt_type,
+        cmpnt_json_key || null,
+        cmpnt_action_type || "none",
         cmpnt_x || 0,
         cmpnt_y || 0,
         cmpnt_width || 0,
         cmpnt_height || 0,
-        cmpnt_json_key || null
+        cmpnt_scroll_cnt || 0,
+        cmpnt_scroll_interval || 500,
+        cmpnt_scroll_amount || 120,
+        cmpnt_must_done || 0,
+        cmpnt_mod_shift || 0,
+        cmpnt_mod_ctrl || 0,
+        cmpnt_mod_alt || 0,
+        cmpnt_focus_click === undefined ? 1 : cmpnt_focus_click,
+        cmpnt_keys_seq || null,
+        cmpnt_next_delay || 1500,
+        cmpnt_text_data || null
     ]);
 
     return result.insertId;
@@ -52,7 +90,20 @@ exports.updateCmpnt = async (
         cmpnt_y,
         cmpnt_width,
         cmpnt_height,
-        cmpnt_json_key
+        cmpnt_json_key,
+
+        cmpnt_action_type,
+        cmpnt_scroll_cnt,
+        cmpnt_scroll_interval,
+        cmpnt_scroll_amount,
+        cmpnt_must_done,
+        cmpnt_mod_shift,
+        cmpnt_mod_ctrl,
+        cmpnt_mod_alt,
+        cmpnt_focus_click,
+        cmpnt_keys_seq,
+        cmpnt_next_delay,
+        cmpnt_text_data
     }
 ) => {
 
@@ -61,22 +112,46 @@ exports.updateCmpnt = async (
         SET
             p_id = ?,
             pc_type = ?,
+            pc_json_key = ?,
+            pc_action_type = ?,
             pc_x = ?,
             pc_y = ?,
             pc_width = ?,
             pc_height = ?,
-            pc_json_key = ?
+            pc_scroll_cnt = ?,
+            pc_scroll_interval = ?,
+            pc_scroll_amount = ?,
+            pc_must_done = ?,
+            pc_mod_shift = ?,
+            pc_mod_ctrl = ?,
+            pc_mod_alt = ?,
+            pc_focus_click = ?,
+            pc_keys_seq = ?,
+            pc_next_delay = ?,
+            pc_text_data = ?
         WHERE pc_seq = ?
     `;
 
     const [result] = await db.query(sql, [
         page_id,
         cmpnt_type,
+        cmpnt_json_key || null,
+        cmpnt_action_type || "none",
         cmpnt_x || 0,
         cmpnt_y || 0,
         cmpnt_width || 0,
         cmpnt_height || 0,
-        cmpnt_json_key || null,
+        cmpnt_scroll_cnt || 0,
+        cmpnt_scroll_interval || 500,
+        cmpnt_scroll_amount || 120,
+        cmpnt_must_done || 0,
+        cmpnt_mod_shift || 0,
+        cmpnt_mod_ctrl || 0,
+        cmpnt_mod_alt || 0,
+        cmpnt_focus_click === undefined ? 1 : cmpnt_focus_click,
+        cmpnt_keys_seq || null,
+        cmpnt_next_delay || 1500,
+        cmpnt_text_data || null,
         cmpnt_seq
     ]);
 
@@ -127,7 +202,20 @@ exports.getCmpnt = async ({
             pc_width AS cmpnt_width,
             pc_height AS cmpnt_height,
             pc_json_key AS cmpnt_json_key,
-            pc_reg_dttm AS cmpnt_reg_dttm
+            pc_reg_dttm AS cmpnt_reg_dttm,
+
+            pc_action_type AS cmpnt_action_type,
+            pc_scroll_cnt AS cmpnt_scroll_cnt,
+            pc_scroll_interval AS cmpnt_scroll_interval,
+            pc_scroll_amount AS cmpnt_scroll_amount,
+            pc_must_done AS cmpnt_must_done,
+            pc_mod_shift AS cmpnt_mod_shift,
+            pc_mod_ctrl AS cmpnt_mod_ctrl,
+            pc_mod_alt AS cmpnt_mod_alt,
+            pc_focus_click AS cmpnt_focus_click,
+            pc_keys_seq AS cmpnt_keys_seq,
+            pc_next_delay AS cmpnt_next_delay,
+            pc_text_data AS cmpnt_text_data
         FROM page_cmpnt
     `;
 
